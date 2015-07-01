@@ -74,8 +74,9 @@ public class Rational
 
     public Rational over(Rational that)
     {
-        Rational inverse = Rational.valueOf(that._denominator, that._numerator);
-        return this.times(inverse);
+        int num = this._numerator * that._denominator;
+        int den = this._denominator * that._numerator;
+        return new Rational(num, den);
     }
 
     public Rational plus(Rational that)
