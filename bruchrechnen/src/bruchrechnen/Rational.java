@@ -47,7 +47,7 @@ public class Rational
         {
             Rational that = (Rational) obj;
             return this._numerator == that._numerator
-                    && this._denominator == ((Rational) obj)._denominator;
+                    && this._denominator == that._denominator;
         }
         return false;
     }
