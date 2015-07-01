@@ -51,11 +51,6 @@ public class RationalTest
     {
         Set<Rational> set = new HashSet<Rational>();
         set.add(Rational.valueOf(22, 7));
-        System.out.println(set);
-        for (Rational r : set)
-        {
-            System.out.println(r.equals(Rational.valueOf(22, 7)));
-        }
         assertTrue(set.contains(Rational.valueOf(22, 7)));
     }
 }
