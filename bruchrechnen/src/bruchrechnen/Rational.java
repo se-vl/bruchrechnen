@@ -1,6 +1,9 @@
 package bruchrechnen;
 
-public class Rational
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class Rational implements Comparable<Rational>
 {
     private final int _numerator;
     private final int _denominator;
@@ -43,13 +46,13 @@ public class Rational
     @Override
     public boolean equals(Object obj)
     {
-        if (obj instanceof Rational)
-        {
-            Rational that = (Rational) obj;
-            return this._numerator == that._numerator
-                    && this._denominator == that._denominator;
-        }
-        return false;
+        return (obj instanceof Rational) && equals((Rational) obj);
+    }
+
+    public boolean equals(Rational that)
+    {
+        return this._numerator == that._numerator
+                && this._denominator == that._denominator;
     }
 
     // Wenn a.equals(b) gilt, dann muss auch a.hashCode() == b.hashCode() gelten!
@@ -81,9 +84,32 @@ public class Rational
 
     public Rational plus(Rational that)
     {
-        int num = this._numerator * that._denominator
-                + that._numerator * this._denominator;
+        int num = this._numerator * that._denominator + that._numerator
+                * this._denominator;
         int den = this._denominator * that._denominator;
         return Rational.valueOf(num, den);
+    }
+
+    public static Rational valueOf(String string)
+    {
+        Matcher matcher = regex.matcher(string);
+        if (matcher.matches())
+        {
+            String num = matcher.group(1);
+            String den = matcher.group(2);
+            return Rational.valueOf(Integer.valueOf(num), Integer.valueOf(den));
+        }
+        throw new IllegalArgumentException(matcher.toString());
+    }
+    
+    private static final Pattern regex = Pattern.compile("(\\d+) / ([1-9]\\d*)");
+
+    @Override
+    public int compareTo(Rational that)
+    {
+        Rational ratio = this.over(that);
+        if (ratio._numerator < ratio._denominator) return -1;
+        if (ratio._numerator > ratio._denominator) return +1;
+        return 0;
     }
 }
